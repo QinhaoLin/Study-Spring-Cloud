@@ -1,6 +1,6 @@
-package service;
+package top.linqinhao.order_service.service;
 
-import domain.ProductOrder;
+import top.linqinhao.order_service.domain.ProductOrder;
 
 /**
  * 订单业务类

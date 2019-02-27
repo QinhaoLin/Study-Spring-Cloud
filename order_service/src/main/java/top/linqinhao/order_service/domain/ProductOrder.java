@@ -1,4 +1,4 @@
-package domain;
+package top.linqinhao.order_service.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,6 +7,7 @@ import java.util.Date;
  * 商品订单实体类
  */
 public class ProductOrder implements Serializable {
+
     private int id;
 
     /**

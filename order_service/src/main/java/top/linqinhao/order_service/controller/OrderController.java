@@ -1,21 +1,21 @@
-package controller;
+package top.linqinhao.order_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import service.ProductOrderService;
+import top.linqinhao.order_service.service.ProductOrderService;
 
 @RestController
-@RequestMapping("api/v1/order/save")
+@RequestMapping("api/v1/order")
 public class OrderController {
 
     @Autowired
     private ProductOrderService productOrderService;
 
-    public  Object save(@RequestParam("user_id") int userid, @RequestParam("product_id") int productId){
-
-        return null;
+    @RequestMapping("save")
+    public Object save(@RequestParam("user_id") int userId, @RequestParam("product_id") int productId){
+        return productOrderService.save(userId, productId);
     }
 }
 
