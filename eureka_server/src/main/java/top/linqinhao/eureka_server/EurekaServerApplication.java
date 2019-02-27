@@ -9,6 +9,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.3.RELEASE/single/spring-cloud-netflix.html#spring-cloud-eureka-server
  */
 @SpringBootApplication
+// @EnableEurekaServer可以省略，“By having spring-cloud-starter-netflix-eureka-client on the classpath, your application automatically registers with the Eureka Server. Configuration is required to locate the Eureka server, as shown in the following example:”
 @EnableEurekaServer
 public class EurekaServerApplication {
 
