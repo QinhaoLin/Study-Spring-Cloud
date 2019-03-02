@@ -4,6 +4,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,7 @@ public class LoginFilter extends ZuulFilter {
         System.out.println(request.getRequestURL());
 
         // 下单接口
+        // ACL
         String orderSave = "/apigateway/order/api/v1/order/save";
         if (orderSave.equalsIgnoreCase(request.getRequestURI())){
             return true;
@@ -75,10 +77,10 @@ public class LoginFilter extends ZuulFilter {
             token = request.getParameter("token");
         }
 
+        // 登录校验逻辑 根据实际情况自定义
         if (StringUtils.isBlank(token)){
-
-        }else {
-
+            requestContext.setSendZuulResponse(false);
+            requestContext.setResponseStatusCode(HttpStatus.SC_UNAUTHORIZED);
         }
         return null;
     }
