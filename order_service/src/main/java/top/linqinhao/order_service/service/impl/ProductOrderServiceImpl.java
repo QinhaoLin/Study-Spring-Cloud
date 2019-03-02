@@ -28,6 +28,9 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     @Override
     public ProductOrder save(int userId, int productId) {
+        if (userId == 1){
+            return null;
+        }
         // Ribbon 调用方式一
         // 获取商品详情
 //        Map<String, Object> productMap = restTemplate.getForObject("http://product-service/api/v1/product/find?id=" + productId, Map.class);

@@ -32,7 +32,7 @@ feign:
     config:
       default:
         connectTimeout: 4000
-        readTimeout: 4000
+        readTimeout: 1000
         loggerLevel: basic
 
 # 把 hystrix 的超时时间禁用
@@ -51,4 +51,11 @@ hystrix:
       excution:
         isolation:
           thread:
-            timeoutInMilliseconds: 4000
+            timeoutInMilliseconds: 1000
+
+# 暴露全部的监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
