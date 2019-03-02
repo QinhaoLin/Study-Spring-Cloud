@@ -52,9 +52,9 @@ public class LoginFilter extends ZuulFilter {
         // 下单接口
         // ACL
         String orderSave = "/apigateway/order/api/v1/order/save";
-        if (orderSave.equalsIgnoreCase(request.getRequestURI())){
-            return true;
-        }
+//        if (orderSave.equalsIgnoreCase(request.getRequestURI())){
+//            return true;
+//        }
 
         return false;
     }

@@ -54,7 +54,7 @@ public class OrderRateLimiterFilter extends ZuulFilter {
             requestContext.setSendZuulResponse(false);
             requestContext.setResponseStatusCode(HttpStatus.TOO_MANY_REQUESTS.value());
         }
-        
+
         return null;
     }
 }

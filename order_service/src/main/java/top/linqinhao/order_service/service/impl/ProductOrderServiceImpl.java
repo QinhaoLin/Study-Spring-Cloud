@@ -1,6 +1,8 @@
 package top.linqinhao.order_service.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -18,6 +20,8 @@ import java.util.UUID;
 
 @Service
 public class ProductOrderServiceImpl implements ProductOrderService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private RestTemplate restTemplate;
@@ -46,6 +50,9 @@ public class ProductOrderServiceImpl implements ProductOrderService {
         String response = productClient.findById(productId);
         JsonNode jsonNode = JsonUtils.str2JsonNode(response);
         System.out.println(jsonNode);
+        logger.info("service save order");
+        // 调用用户服务，主要是获取用户名称，用户的级别或者积分信息 TODO
+        // 积分服务 TODO
 
         ProductOrder productOrder = new ProductOrder();
         productOrder.setCreateTime(new Date());

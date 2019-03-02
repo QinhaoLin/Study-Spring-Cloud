@@ -1,5 +1,7 @@
 package top.linqinhao.product_service.domain.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import top.linqinhao.product_service.domain.ProductService;
 import top.linqinhao.product_service.service.Product;
@@ -10,6 +12,7 @@ import java.util.*;
 public class ProudctServiceImpl implements ProductService {
 
     private static final Map<Integer, Product> daoMap = new HashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     static {
         Product p1 = new Product(1,"iphonex",9999,110);
@@ -43,6 +46,7 @@ public class ProudctServiceImpl implements ProductService {
 
     @Override
     public Product findById(int id) {
+        logger.info("service findById");
         return daoMap.get(id);
     }
 

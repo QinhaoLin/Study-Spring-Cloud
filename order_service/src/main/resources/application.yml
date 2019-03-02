@@ -17,6 +17,14 @@ spring:
     password: 012_345^678-90
     port: 6378
     timeout: 3000
+# zipkin服务所在地址
+  zipkin:
+    base-url: http://localhost:9411/
+# 配置采样百分比，开发环境可以设置为1，表示全部，生产环境就用默认的
+  sleuth:
+    sampler:
+      probability: 1
+
 # 自定义负载均衡策略，修改调用方的调用策略，默认是轮询
 # 官方文档：https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.3.RELEASE/single/spring-cloud-netflix.html#_customizing_the_ribbon_client_by_setting_properties
 #product-service:
