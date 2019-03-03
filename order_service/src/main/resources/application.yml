@@ -13,8 +13,8 @@
 #    name: order-service
 #  redis:
 #    database: 3
-#    host: 139.199.223.23
-#    password: 012_345^678-90
+#    host: 
+#    password: 
 #    port: 6378
 #    timeout: 3000
 ## zipkin服务所在地址
