@@ -1,69 +1,69 @@
-server:
-  port: 8781
-
-# 指定注册中心地址
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-
-# 服务的名称
-spring:
-  application:
-    name: order-service
-  redis:
-    database: 3
-    host: 139.199.223.23
-    password: 012_345^678-90
-    port: 6378
-    timeout: 3000
-# zipkin服务所在地址
-  zipkin:
-    base-url: http://localhost:9411/
-# 配置采样百分比，开发环境可以设置为1，表示全部，生产环境就用默认的
-  sleuth:
-    sampler:
-      probability: 1
-
-# 自定义负载均衡策略，修改调用方的调用策略，默认是轮询
-# 官方文档：https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.3.RELEASE/single/spring-cloud-netflix.html#_customizing_the_ribbon_client_by_setting_properties
-#product-service:
-#  ribbon:
-#    # 使用随机策略
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-
-# 修改服务调用超时时间，hystrix 默认是1秒超时
-feign:
-  hystrix:
-    enabled: true
-  client:
-    config:
-      default:
-        connectTimeout: 2000
-        readTimeout: 1000
-        loggerLevel: basic
-
-# 把 hystrix 的超时时间禁用
+#server:
+#  port: 8781
+#
+## 指定注册中心地址
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#
+## 服务的名称
+#spring:
+#  application:
+#    name: order-service
+#  redis:
+#    database: 3
+#    host: 139.199.223.23
+#    password: 012_345^678-90
+#    port: 6378
+#    timeout: 3000
+## zipkin服务所在地址
+#  zipkin:
+#    base-url: http://localhost:9411/
+## 配置采样百分比，开发环境可以设置为1，表示全部，生产环境就用默认的
+#  sleuth:
+#    sampler:
+#      probability: 1
+#
+## 自定义负载均衡策略，修改调用方的调用策略，默认是轮询
+## 官方文档：https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.3.RELEASE/single/spring-cloud-netflix.html#_customizing_the_ribbon_client_by_setting_properties
+##product-service:
+##  ribbon:
+##    # 使用随机策略
+##    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+#
+## 修改服务调用超时时间，hystrix 默认是1秒超时
+#feign:
+#  hystrix:
+#    enabled: true
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 2000
+#        readTimeout: 1000
+#        loggerLevel: basic
+#
+## 把 hystrix 的超时时间禁用
+##hystrix:
+##  command:
+##    default:
+##      execution:
+##        timeout:
+##          enabled: false
+#
+## 设置hystrix超时时间为4秒
+## execution.isolation.thread.timeoutInMilliseconds = 4000
 #hystrix:
 #  command:
 #    default:
-#      execution:
-#        timeout:
-#          enabled: false
-
-# 设置hystrix超时时间为4秒
-# execution.isolation.thread.timeoutInMilliseconds = 4000
-hystrix:
-  command:
-    default:
-      excution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 1000
-
-# 暴露全部的监控信息
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+#      excution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 1000
+#
+## 暴露全部的监控信息
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"

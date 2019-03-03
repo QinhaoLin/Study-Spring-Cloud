@@ -10,7 +10,7 @@ spring:
           # 注意：uri 地址不是仓库地址
           uri: https://github.com/QinhaoLin/Study-Spring-Cloud-Congif
           username: qinhaolin
-          password: 
+          password:
           # 超时时间，单位秒
           timeout: 5
           # 默认分支是 master

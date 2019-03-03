@@ -1,26 +1,26 @@
-server:
-  port: 9000
-
-# 服务的名称
-spring:
-  application:
-    name: api-gateway
-
-# 指定注册中心地址
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-# /product-service/api/v1/product/list -> /apigateway/api/v1/product/list
-# 自定义路由映射
-zuul:
-  routes:
-    # 注意：为每个服务id设置映射时，映射路径不能相同（原理是使用Map集合）
-    product-service: /apigateway/product/**
-    order-service: /apigateway/order/**
-    # 关闭此访问规则，只能通过路由映射访问，统一入口为上面的配置
-    ignored-patterns: /*-service/**
-    # 处理Http请求头为null的问题
-    sensitive-headers:
-    # 忽略整个服务，此规则访问不对外提供接口
-#  ignored-services: product-service
+#server:
+#  port: 9000
+#
+## 服务的名称
+#spring:
+#  application:
+#    name: api-gateway
+#
+## 指定注册中心地址
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+## /product-service/api/v1/product/list -> /apigateway/api/v1/product/list
+## 自定义路由映射
+#zuul:
+#  routes:
+#    # 注意：为每个服务id设置映射时，映射路径不能相同（原理是使用Map集合）
+#    product-service: /apigateway/product/**
+#    order-service: /apigateway/order/**
+#    # 关闭此访问规则，只能通过路由映射访问，统一入口为上面的配置
+#    ignored-patterns: /*-service/**
+#    # 处理Http请求头为null的问题
+#    sensitive-headers:
+#    # 忽略整个服务，此规则访问不对外提供接口
+##  ignored-services: product-service
