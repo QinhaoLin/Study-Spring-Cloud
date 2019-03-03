@@ -1,5 +1,5 @@
-server:
-  port: 8771
+#server:
+#  port: 8771
 
 # 指定注册中心地址
 eureka:
@@ -11,5 +11,12 @@ eureka:
 spring:
   application:
     name: product-service
-
+  # 指定从哪个配置中心读取
+  cloud:
+    config:
+      discovery:
+        service-id: config-server
+        enabled: true
+      # 指定配置文件
+      profile: test
 
