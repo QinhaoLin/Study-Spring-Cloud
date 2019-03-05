@@ -1,25 +1,25 @@
-# ·şÎñµÄÃû³Æ
+# æœåŠ¡çš„åç§°
 spring:
   application:
     name: config-server
-# gitÅäÖÃ
+# gité…ç½®
   cloud:
     config:
       server:
         git:
-          # ×¢Òâ£ºuri µØÖ·²»ÊÇ²Ö¿âµØÖ·
+          # æ³¨æ„ï¼šuri åœ°å€ä¸æ˜¯ä»“åº“åœ°å€
           uri: https://github.com/QinhaoLin/Study-Spring-Cloud-Congif
           username: qinhaolin
           password:
-          # ³¬Ê±Ê±¼ä£¬µ¥Î»Ãë
+          # è¶…æ—¶æ—¶é—´ï¼Œå•ä½ç§’
           timeout: 5
-          # Ä¬ÈÏ·ÖÖ§ÊÇ master
+          # é»˜è®¤åˆ†æ”¯æ˜¯ master
           default-label: master
-# ÅäÖÃ·şÎñµÄ¶Ë¿ÚºÅ
+# é…ç½®æœåŠ¡çš„ç«¯å£å·
 server:
   port: 9100
 
-# Ö¸¶¨×¢²áÖĞĞÄµØÖ·
+# æŒ‡å®šæ³¨å†Œä¸­å¿ƒåœ°å€
 eureka:
   client:
     serviceUrl:
