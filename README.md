@@ -220,3 +220,115 @@ server:
 ```
 By having spring-cloud-starter-netflix-eureka-client on the classpath, your application automatically registers with the Eureka Server. Configuration is required to locate the Eureka server, as shown in the following example:
 ```    
+
+# 四、服务消费者Ribbon和feign实战和注册中心高可用
+
+## 4.1 常用的服务间调用方式讲解  
+简介：讲解常用的服务间的调用方式  
+
+- RPC:  
+远程过程调用，像调用本地服务(方法)一样调用服务器的服务  
+支持同步、异步调用  
+客户端和服务器之间建立TCP连接，可以一次建立一个，也可以多个调用复用一次链接  
+PRC数据包小  
+protobuf  
+thrift  
+RPC主要问题：编解码，序列化，链接，丢包，协议  
+
+
+- Rest(Http):  
+http请求，支持多种协议和功能  
+开发方便成本低  
+http数据包大  
+java开发：HttpClient，URLConnection  
+
+## 4.2 微服务调用方式之Ribbon实战 订单服务调用商品服务
+简介：实战电商项目，订单服务调用商品服务获取商品信息  
+
+1. 创建order_service项目
+2. 开发伪下单接口
+3. 使用Ribbon （类似httpClient，URLconnection）  
+启动类增加注解
+```
+@Bean
+@LoadBalanced
+public RestTemplate restTemplate() {
+    return new RestTemplate();
+}
+```
+4. 根据名称进行调用商品，获取商品详情
+
+## 4.3 高级篇幅之Ribbon负载均衡源码分析实战
+简介：讲解Ribbon服务间调用负载均衡源码分析  
+1. 完善下单接口
+2. 分析 ==@LoadBalanced==  
+    1. 首先从Euraka注册中心获取服务列表，获取provider的服务列表  
+    2. IRule通过一定的策略选择其中一个节点  
+    3. 再返回给restTemplate调用
+
+## 4.4 高级篇副之服务调用之负载均衡策略调整实战
+简介：实战调整默认负载均衡策略实战
+
+自定义负载均衡策略：  
+
+在配置文件里面，自定义负载均衡策略  
+```
+# 自定义负载均衡策略
+product-service:
+  ribbon:
+	NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+```
+策略选择：  
+1. 如果每个机器配置一样，则建议不修改Ribbon策略（推荐）
+2. 如果部分机器配置好，则可以改为 WeightedResponseTimeRule 按权重分配  
+ 
+
+## 4.5 微服务调用方式Feign 实战 订单调用商品服务
+简介：改造电商项目 订单服务 调用商品服务获取商品信息  
+Feign：伪RPC客户端（本质还是使用http）  
+官方文档：https://cloud.spring.io/spring-cloud-openfeign/  
+
+1. 使用feign步骤（新旧版本依赖名称不一样，旧版本没有open）
+加入依赖
+```
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+启动类增加 ==@EnableFeignClients==  
+增加一个接口 并 ==@FeignClient(name="product-service")==
+
+2. 编码实战
+3. 注意点：
+    1. 路径
+    2. Http方法必须对应
+    3. 参数使用了@requestBody，调用方应该使用@PostMapping
+    4. 多个参数的时候，通过(@RequestParam("id") int id)方式调用
+
+## 4.6 Feign核心源码解读和服务调用方式Ribbon和Feign选择
+简介：讲解Feign核心源码解读和服务间的调用方式Ribbon、Feign选择
+1. Ribbon和Feign两个的区别和选择
+选择Feign  
+默认集成了Ribbon  
+写起来思路更加清晰和方便  
+采用注解方式进行配置，配置熔断等方式方便  
+
+2. 服务间调用超时配置  
+默认optons readtimeout是60，但是由于hystrix默认是1秒超时
+```
+# 修改服务调用超时时间
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+```
+模拟接口响应慢，线程睡眠新的方式
+```
+TimeUnit.SECONDS.sleep(1); // 线程睡眠1秒
+```
+
+
