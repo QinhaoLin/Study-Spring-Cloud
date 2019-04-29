@@ -535,4 +535,4 @@ spring-configuration-metadata.json
 简介：讲解断路器监控仪表盘参数和模拟熔断  
 
 1. 仪表盘采集技术：sse server-send-event推送到前端
-
+ 
