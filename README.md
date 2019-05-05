@@ -534,5 +534,116 @@ spring-configuration-metadata.json
 ## 5.8 断路器监控仪表参数讲解和模拟
 简介：讲解断路器监控仪表盘参数和模拟熔断  
 
+# 六、微服务网关zuul开发实战  
+## 6.1 微服务网关介绍和试用场景  
+简介：讲解网关的作用和使用场景  
+
+1. 什么是网关  
+API Gateway，是系统的唯一对外的入口，介于客户端和服务端之间的中间层，处理非业
+务功能  
+提供路由请求、鉴权、监控、缓存、限流等功能  
+
+统一接入：  
+智能路由  
+AB测试、灰度测试  
+负载均衡、容灾处理  
+日志埋点（类似Nginx日志）
+
+流量监控：  
+限流处理  
+服务降级  
+
+安全防护：  
+鉴权处理  
+监控  
+机器网络隔离  
+
+2. 主流的网关
+
+Zuul：是Netflix开源的微服务网关，和Eureka，Ribbon，Hystrix等组件配合使用，Zuul 2.0比1.0的性能提高很多  
+
+Kong：由Mashape公司开源的，基于Nginx的API Gateway
+  
+Nginx+Lua：是一个高性能的HTTP和反向代理服务器，Lua是脚本语言，让Nginx执行Lua脚本，并且高并发、非阻塞的处理各种请求  
+
+## 6.2 Spring Cloud的网关组件Zuul基本使用
+简介：讲解Zuul网关的基本使用  
+
+1. 加入依赖
+```
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+</dependency>
+```
+
+2. 启动类加入注解 ==@EnableZuulProxy==  
+默认集成断路器 ==@EnableCircuitBreaker==  
+
+默认访问规则  
+http://gateway:port/service-id/**  
+http://localhost:9000/product-service/api/v1/product/list
+
+例子：  
+默认 /product-service/api/v1/product/list 
+
+自定义 /product-service/api/v1/product/list -> /apigateway/api/v1/product/list   
+自定义路由转发配置：  
+```
+zuul:
+  routes:
+    product-service: /apigateway/**
+```
+
+环境隔离配置：  
+需求：不想让默认的服务对外暴露接口  
+/order-service/api/v1/order/save  
+
+配置：
+```
+zuul:
+    # 关闭此访问规则，只能通过路由映射访问
+    ignored-patterns: /*-service/**
+```
+
+## 6.3 高级篇幅之Zuul常用问题分析和网关过滤器原理分析
+简介：简介Zuul网关原理和过滤器生命周期  
+
+1. 路由名称定义问题  
+
+路由映射重复覆盖问题  
+为每个服务id设置映射时，映射路径不能相同（原理是使用Map集合）
+2. Http请求头过滤问题  
+ 
+sensitive-headers默认有3个值
+``` 
+zuul:
+  routes:
+    # 处理Http请求头为null的问题
+    sensitive-headers:
+```
+  
+3. 过滤器执行顺序问题，过滤器的order值越小，越优先执行  
+4. 共享RequestContext，上下文对象
+
+## 6.4 自定义Zuul过滤器实现登录鉴权实现  
+简介：自定义Zuul过滤器实现登录鉴权实战
+1. 新建一个filter包
+2. 新建一个类，实现ZuulFilter，重写里面的方法
+3. 在类上加入注解==@Component==，让Spring扫描
+
+了解：JWT、ACL 
+
+## 6.5高级篇幅之高并发情况下接口限流技巧  
+简介：谷歌guava框架介绍，网关限流使用  
+
+1. Nginx层限流
+2. 网关层限流
+
+## 6.6 Zuul微服务网关集群搭建  
+简介：微服务网关Zuul集群搭建  
+
+1. Nginx+LVS+Keepalive 做Nginx高可用
+
 1. 仪表盘采集技术：sse server-send-event推送到前端
  
