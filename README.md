@@ -532,7 +532,9 @@ https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/htmlsingle/#boot
 spring-configuration-metadata.json
 
 ## 5.8 断路器监控仪表参数讲解和模拟
-简介：讲解断路器监控仪表盘参数和模拟熔断  
+简介：讲解断路器监控仪表盘参数和模拟熔断   
+
+1. 仪表盘采集技术：sse server-send-event推送到前端
 
 # 六、微服务网关zuul开发实战  
 ## 6.1 微服务网关介绍和试用场景  
@@ -645,5 +647,105 @@ zuul:
 
 1. Nginx+LVS+Keepalive 做Nginx高可用
 
-1. 仪表盘采集技术：sse server-send-event推送到前端
- 
+ # 七、分布式链路追踪系统Sleuth和ZipKin实践  
+## 7.1 微服务下的链路追踪讲解和重要性
+简介：讲解什么是分布式链路追踪系统，及使用好处
+
+
+## 7.2 Spring Cloud 的链路追踪组件Sleuth实战 
+简介：讲解分布式链路追踪组件Sleuth
+
+1. 官方文档
+https://cloud.spring.io/spring-cloud-sleuth/single/spring-cloud-sleuth.html#sleuth-adding-project
+
+最主要功能：做日志埋点
+
+2. 什么是Sleuth  
+一个组件，专门用于追踪每个请求的完整调用链路  
+
+例子：[order-service,b6590d82d26411bb,636220ea04a8a930,false]
+
+1、第一个值，spring.application.name 的值  
+2、第二个值，b6590d82d26411bb，sleuth生成的一个ID，叫Trace ID，用来标识一条请求链路，一条请求链路中包含一个Trace ID，多个Span ID  
+3、第三个值，636220ea04a8a930、Span ID 基本的工作单元，获取元数据，如发送一个http  
+4、第四个值，false，是否要将该信息输出到ZipKin服务中来收集和展示
+
+3. 添加依赖
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+```
+
+## 7.3 Spring Cloud 的链路追踪组件Sleuth常见问题说明  
+简介：讲解分布式链路追踪组件Sleuth常见问题说明
+
+
+## 7.4 可视化链路追踪系统ZipKin部署
+简介：讲解ZipKin的介绍和部署 
+1. 什么是ZipKin  
+官网：https://zipkin.io/  
+大规模分布式系统的APM工具（Application Performance Management），基于Google Dapper的基础实现，和Sleuth结合可以提供可视化Web界面分析调用链路耗时情况  
+
+2. 同类产品  
+鹰眼（EagleEye）  
+CAT  
+twitter开源Zipkin，结合Sleuth  
+Pinpoint，运用JavaAgent字节码增强技术  
+StackDriver Trace（Google）  
+
+3. 开始使用  
+https://github.com/openzipkin/zipkin   
+https://zipkin.io/pages/quickstart.html  
+
+zipkin组成：Collector（收集器）、Storage（存储）、Restful、API、Web UI组成  
+
+4. 知识拓展：OpenTracing  
+OpenTracing 已进入 CNCF，正在为全球的分布式追踪，提供统一的概念和数据标准。  
+通过提供平台无关、厂商无关的 API，使得开发人员能够方便的添加（或更换）追踪系统的实现。   
+
+推荐阅读：  
+http://blog.daocloud.io/cncf-3/  
+https://www.zhihu.com/question/27994350  
+https://yq.aliyun.com/articles/514488?utm_content=m_43347
+
+
+## 7.5 高级篇幅之链路追踪组件ZipKin+Sleuth实战
+简介：使用Zipkin+Sleuth业务分析调用链路分析实战  
+
+1. 文档  
+https://cloud.spring.io/spring-cloud-sleuth/single/spring-cloud-sleuth.html#_sleuth_with_zipkin_via_http
+
+sleuth收集跟踪信息通过http请求发送给zipkin server，zipkin server进行跟踪信息的存储以及提供Rest API即可，Zipkin UI调用其API接口进行数据展示。  
+
+默认存储是内存，可以用MySQL、或者elasticsearch等存储。
+
+2. 加入依赖
+```
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+```
+里面包含 spring-cloud-starter-sleuth、spring-cloud-sleuth-zipkin  
+
+3. 文档说明    
+https://cloud.spring.io/spring-cloud-sleuth/single/spring-cloud-sleuth.html#_features
+4. 配置zipkin.base-url
+```
+spring: 
+  zipkin:
+    base-url: http://localhost:9411/
+```
+
+5. 配置采样百分比spring.sleuth.sampler
+```
+spring:
+  sleuth:
+    sampler:
+      probability: 1
+```
+
+
+推荐资料：https://blog.csdn.net/jrn1012/article/details/77837710
